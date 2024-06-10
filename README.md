@@ -2,9 +2,13 @@
 
 データベースの接続
 ```
+$dsn="mysql:host=localhost;dbname=movie;charset=utf8";
+$user="testuser";
+$pass="testpass";
 ```
 - 検索欄に値がなければ
 通常のselect文で全部呼び出す
+SELECT * FROM images WHERE 1=1;
 
 - もし値があったら
 whereで指定する
