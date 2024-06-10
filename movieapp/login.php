@@ -22,19 +22,21 @@ try{
     
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);//連想配列にしている
     
-    if($input_email == $result[0]["email"] ){
-        echo "ログイン画面！！！";
-        session_start();
+    //ちゃんと配列をどこから取るかしていする[0]
+    if (!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
+        header("Location:mypage.html");
+        exit;
+    } else {
+        // ログインに失敗した場合の処理
+        echo "ログインに失敗しました";
     }
-
 
 }catch(PDOException $e){
     echo "接続失敗・・・";
     echo "エラー内容：".$e->getMessage();
 }
 
-header("Location:mypage.html");
-exit;
+
 
 
 
