@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $input_name =$_POST["name"];
 $input_email =$_POST["email"];
@@ -22,11 +23,15 @@ try{
     
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);//連想配列にしている
     
-    //ちゃんと配列をどこから取るかしていする[0]
-    if (!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
+    //ちゃんと配列をどこから取るか指定する[0]
+    if (!empty($result) && $input_name == "admin" &&  isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
+        header("Location: admin.php");
+        exit; //管理者画面
+    
+    } else if(!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
         header("Location:mypage.html");
-        exit;
-    } else {
+        exit; //ユーザー画面
+}else {
         // ログインに失敗した場合の処理
         echo "ログインに失敗しました";
     }

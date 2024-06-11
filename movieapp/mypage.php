@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
     <title>検索結果</title>
 </head>
 <body>
@@ -56,9 +59,12 @@ try {
 }
 
 ?>
-<span class="favoritedmark fade">★</span>
-    <button class="btn btn-primary addtofavorite">お気に入りに登録</button>
-    <button class="btn btn-primary removefavorite hidden">お気に入りから外す</button>
+
+
+<button id="favoriteButton" class="favorite-button">
+    <span class="star">&#9733;</span> 
+</button>
+
 <button type="button" onclick="history.back()">前のページへ戻る</button>
 </body>
 </html>
