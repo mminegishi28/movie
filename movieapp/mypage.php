@@ -1,10 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
+    <meta charset="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>検索結果</title>
+    <style>
+        .movie-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-image {
+            flex: 1;
+        }
+
+        .movie-info {
+            flex: 1;
+            padding-left: 20px; /* 画像と情報の間のスペースを設定 */
+        }
+
+        .movie-info p {
+            margin: 0; /* パラグラフの余白をリセット */
+        }
+        .title{
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body>
 
@@ -30,24 +52,35 @@ try {
             $stmt = $dbh->prepare($sql);
             $stmt->execute();
 
-          
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<li><a href='content.php?id={$row["id"]}'>{$row["name"]}<br><img src= {$row["image_date"]} alt={$row["image_date"]} height='5'></a></li>";
+                echo "<div class='movie-item'>";
+                echo "<div class='movie-image'><img src='{$row["image_data"]}' alt='{$row["title"]}' height='500'></div>";
+                echo "<div class='movie-info'>";
+                echo "<p>{$row["title"]}</p>";
+                echo "<p>公開日：{$row["opening"]}</p>";
+                echo "<p>監督：{$row["director"]}</p>";
+                echo "<p>あらすじ：{$row["summary"]}</p>";
+                echo "</div>";
+                echo "</div>";
             }
-           
         } else {
-            
             $keyword = '%' . $_GET["query"] . '%'; // プレースホルダの値を準備
-            $sql = "SELECT * FROM movies WHERE name LIKE ?";
+            $sql = "SELECT * FROM movies WHERE title LIKE ?";
             $stmt = $dbh->prepare($sql);
             $stmt->bindParam(1, $keyword);
             $stmt->execute();
 
-           
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<li><a href='content.php?id={$row["id"]}'>{$row["name"]}<br><img src= {$row["image_date"]} alt={$row["image_date"]} height='500'></a></li>";
+                echo "<div class='movie-item'>";
+                echo "<div class='movie-image'><img src='{$row["image_data"]}' alt='{$row["title"]}' height='500'></div>";
+                echo "<div class='movie-info'>";
+                echo "<div class='title'><p>【{$row["title"]}】</p></div>";
+                echo "<p>公開日：{$row["opening"]}</p>";
+                echo "<p>監督：{$row["director"]}</p>";
+                echo "<p>あらすじ：{$row["summary"]}</p>";
+                echo "</div>";
+                echo "</div>";
             }
-          
         }
     } else {
         echo "<p>検索キーワードが指定されていません。</p>";
@@ -57,9 +90,7 @@ try {
     echo "接続失敗・・・";
     echo "エラー内容：" . $e->getMessage();
 }
-
 ?>
-
 
 <button id="favoriteButton" class="favorite-button">
     <span class="star">&#9733;</span> 

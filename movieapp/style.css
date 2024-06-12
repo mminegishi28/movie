@@ -14,22 +14,22 @@ table{
 
 /* お気に入りボタン */
 .favorite-button{
-    background-color: #cde9e92c;
+    background-color: #0000002c;
     border: none;
     /* color: #212529; */
     /* padding: 3px 5px; */
     /* font-size: 16px; */
     cursor: pointer;
-    /* border-radius: 15px; */
+    border-radius: 15px;
     transition: background-color 0.3s ease;
 }
 
 .favorite-button:hover {
-    background-color: #000000;
+    background-color: #020000;
 }
 
 .star {
-    color: #0bdab7e7; /* 星の色 */
+    color: #5200ebbe; /* 星の色 */
     margin-right: 2px;
     font-size: 30px;
 }
