@@ -6,6 +6,8 @@ $dsn = "mysql:host=localhost;dbname=movie;charset=utf8";
 $user = "testuser";
 $pass = "testpass";
 
+
+
 try {
     $dbh = new PDO($dsn, $user, $pass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -13,7 +15,7 @@ try {
     // 映画情報が送信された場合の処理
     if (isset($_POST['mode']) && $_POST['mode'] === 'register') {
         // 既存の映画情報が3つ以上ある場合は古い情報を削除
-        if (count($_SESSION['movieInfo']) >= 3) {
+        if (isset($_SESSION['movieInfo']) && count($_SESSION['movieInfo']) >= 3) {
             array_shift($_SESSION['movieInfo']);
         }
 
@@ -34,6 +36,8 @@ try {
         $moviesStmt = $dbh->prepare($moviesql); // prepareメソッドを使用してクエリを準備
         $moviesStmt->execute();
         
+
+        
         $imagePath = '';
         if(isset($_FILES) && $_FILES['image_data']['error'] === UPLOAD_ERR_OK) {
             $tempName = $_FILES['image_data']['tmp_name'];
@@ -42,6 +46,16 @@ try {
             move_uploaded_file($tempName, $imagePath); // 画像を保存
         }
 
+        $sql = "SELECT * FROM movies WHERE flag=1";
+        //プレイスホルダー
+        $stmt = null;
+        $stmt = $dbh->prepare($sql); // prepareメソッドを使用してクエリを準備
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
         // 画面下に出力するためのHTMLを生成
         $newMovieInfo = "<h2>【追加された映画情報】</h2>";
         $newMovieInfo .= "<p>映画名: $title</p>";
@@ -49,6 +63,19 @@ try {
         $newMovieInfo .= "<p>監督: $director</p>";
         $newMovieInfo .= "<p>あらすじ: $summary</p>";
         $newMovieInfo .= "<p>フライヤー: <img src = '$imagePath' alt='$imagePath'  height='500'</p>";
+        $inputForm = "<form action=\"admin.php\" method=\"get\">";
+        foreach($result as $rows){
+            if($rows["flag"] == 1){
+                $inputForm.="<input type=\"submit\" value=\"削除\">";
+                $inputForm.="<input type=\"hidden\" name=\"mode\" value=\"delete\">";
+                $inputForm.="<input type=\"hidden\" name=\"id\" value=\"{$rows['id']}\"";
+            }
+        }
+        $inputForm .= "</form>";
+        $newMovieInfo .= $inputForm;
+
+        
+
 
         // 既存の映画情報に追加
         $_SESSION['movieInfo'][] = $newMovieInfo;
@@ -66,6 +93,65 @@ try {
         $userList .= "<td>" . htmlspecialchars($user['email']) . "</td>";
         $userList .= "</tr>"; // emailの後に空のtdを挿入して改行を実現
     }
+
+    //削除
+        // $sql = "SELECT * FROM movies WHERE flag=1";
+        //     //プレイスホルダー
+        // $stmt = null;
+        // $stmt = $dbh->prepare($sql); // prepareメソッドを使用してクエリを準備
+        // $stmt->execute();
+        // $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // $inputForm = "<form action=\"admin.php\" method=\"get\">";
+        // foreach($result as $rows){
+        //     if($rows["flag"] == 1){
+        //         $inputForm.="<input type=\"submit\" value=\"削除\">";
+        //         $inputForm.="<input type=\"hidden\" name=\"mode\" value=\"delete\">";
+        //         $inputForm.="<input type=\"hidden\" name=\"id\" value=\"{$rows['id']}\"";
+        //     }
+        // }
+        
+        // $inputForm .= "</form>";
+
+            //ユーザを無効にするための処理
+        if (isset($_GET["mode"]) && $_GET["mode"] == "delete")
+        {
+            //sql文を用意
+            $sql=<<<sql
+            UPDATE movies
+            SET flag = 0;
+            WHERE id = ?;
+sql;
+
+            $stmt=$dbh->prepare($sql);
+            $stmt->bindParam(1,$_GET["id"]);
+            //sql実行
+            $stmt->execute();
+        }
+        // 表示のやつを書く
+        /// sql文（flagが1のものをすべて持ってくる。idで逆順。上から3つ）
+        $sql = "SELECT * FROM movies WHERE flag = 1 ORDER BY id DESC LIMIT 3;";
+        /// prepare と execute
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // var_dump($result);
+        $showTable = "";
+        foreach($result as $row){
+            $showTable.= "<h2>【追加された映画情報】</h2>";
+            $showTable .= "<p>映画名: {$row["title"]}</p>";
+            $showTable .= "<p>公開日: {$row["opening"]}</p>";
+            $showTable .= "<p>監督: {$row["director"]}</p>";
+            $showTable .= "<p>あらすじ: {$row["summary"]}</p>";
+            $showTable .= "<p>フライヤー: <img src = '{$row["image_data"]}' alt='{$row["image_data"]}'  height='500'</p>";
+            $showTable .= "<form action=\"admin.php\" method=\"get\">";
+            $showTable .= "<input type=\"submit\" value=\"削除\">";
+            $showTable .= "<input type=\"hidden\" name=\"mode\" value=\"delete\">";
+            $showTable .= "<input type=\"hidden\" name=\"id\" value=\"{$row['id']}\"";
+            $showTable .= "<br>";
+        }
+
 
 } catch (PDOException $e) {
     echo "データベース接続エラー: " . $e->getMessage();
@@ -95,9 +181,10 @@ $content = <<<HTML
     </tr>
     <tr>
     {$userList}
-    <!-- 他に表示したいユーザー情報があればここに追加 -->
     </tr>
     </table>
+    <button onclick="location.href='./remake.php'">ボタン</button>
+
     </div>
     <div style="flex: 1;">
     <h2>【映画情報追加】</h2>
@@ -130,22 +217,26 @@ $content = <<<HTML
     </tr>
     </table>
     </form>
+    {$showTable}
 
-    <!-- 削除ボタン -->
-    <!-- <div style="flex: 1;">
-    <h2>【映画情報削除】</h2>
-    <?php foreach ($movies as $movie): ?>
-        <form action="" method="post"> -->
-            <!-- エラー -->
-            <!-- <input type="hidden" name="movie_id" value="<?php echo $moviesql['title']; ?>">
-            <button type="submit" name="delete_btn">削除</button>
-        </form>
-    <?php endforeach; ?> -->
+
+HTML;
+
+// // 映画情報の表示
+// if (!empty($_SESSION['movieInfo'])) {
+//     $content .= "<h2></h2>";
+//     foreach ($_SESSION['movieInfo'] as $movie) {
+//         $content .= $movie;
+//     }
+// }
+
+
+$content .= <<<HTML
     </div>
-
     </div>
     </body>
     </html>
+    
 HTML;
 
 echo $content;

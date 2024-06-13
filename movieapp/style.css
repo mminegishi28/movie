@@ -12,24 +12,3 @@ table{
    border-spacing: 10px;
 }
 
-/* お気に入りボタン */
-.favorite-button{
-    background-color: #0000002c;
-    border: none;
-    /* color: #212529; */
-    /* padding: 3px 5px; */
-    /* font-size: 16px; */
-    cursor: pointer;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.favorite-button:hover {
-    background-color: #020000;
-}
-
-.star {
-    color: #5200ebbe; /* 星の色 */
-    margin-right: 2px;
-    font-size: 30px;
-}

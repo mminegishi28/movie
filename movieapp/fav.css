@@ -1,0 +1,52 @@
+body{
+    text-align: center; 
+    background-color: antiquewhite;  
+   }
+   h1{
+       margin-top: 50px;
+   }
+   table{
+      text-align: center;
+      margin: auto;
+      padding: auto;
+      border-spacing: 10px;
+   }
+   
+   .favorite-button {
+       background-color: transparent;
+       border: none;
+       cursor: pointer;
+       padding: 0;
+       outline: none;
+   }
+   
+   .favorite-button.active .star {
+       color: rgb(255, 0, 191); /* アクティブ時の★マークの色を設定 */
+   }
+   
+   .star {
+       font-size: 24px; /* ★マークのフォントサイズ */
+   }
+   .movie-item {
+    display: flex;
+    align-items: center;
+}
+
+.movie-image {
+    flex: 1;
+}
+
+.movie-info {
+    flex: 1;
+    padding-left: 20px; /* 画像と情報の間のスペースを設定 */
+}
+
+.movie-info p {
+    margin: 0; /* パラグラフの余白をリセット */
+}
+.title{
+    font-size: 30px;
+}
+.tt{
+  padding-top: 50px;
+}

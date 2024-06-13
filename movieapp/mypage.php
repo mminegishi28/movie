@@ -3,32 +3,15 @@
 <head>
     <meta charset="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fav.css">
     <title>検索結果</title>
-    <style>
-        .movie-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .movie-image {
-            flex: 1;
-        }
-
-        .movie-info {
-            flex: 1;
-            padding-left: 20px; /* 画像と情報の間のスペースを設定 */
-        }
-
-        .movie-info p {
-            margin: 0; /* パラグラフの余白をリセット */
-        }
-        .title{
-            font-size: 30px;
-        }
-    </style>
+    
+       
 </head>
 <body>
+
+<scrpt src="fav.js">
+</scrpt>
 
 <?php
 $dsn = "mysql:host=localhost;dbname=movie;charset=utf8";
@@ -78,9 +61,13 @@ try {
                 echo "<p>公開日：{$row["opening"]}</p>";
                 echo "<p>監督：{$row["director"]}</p>";
                 echo "<p>あらすじ：{$row["summary"]}</p>";
+                echo "<div class='tt'><input type=\"text\" name=\"comment\" style=\"width:300px; height:130px\"></div>";
+                echo "<div class='text'><input type=\"submit\" value=\"送信\"></div>";
                 echo "</div>";
                 echo "</div>";
             }
+
+            
         }
     } else {
         echo "<p>検索キーワードが指定されていません。</p>";
@@ -91,6 +78,7 @@ try {
     echo "エラー内容：" . $e->getMessage();
 }
 ?>
+<scrpt src="fav.js"></scrpt>
 
 <button id="favoriteButton" class="favorite-button">
     <span class="star">&#9733;</span> 
