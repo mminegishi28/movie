@@ -14,17 +14,22 @@ try {
     // ボタンが押されたかどうかをチェック
     if (isset($_POST['update_fav_flag'])) {
         // ここでidに対応する行を持ってくる
-        // select * from movies where id = ;
-        
-        // データベースのfavflagを更新
-        // もしfavflag == 0
-        $sql = "UPDATE movies SET favflag = 1 WHERE id = $_POST["update_fav_flag"]"; // favflagが1のレコードを0に更新
+        $sql="select * from movies where id = {$_POST['update_fav_flag']}";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
-
-        // もしfavflag == 1
-
-        
+        $result=$stmt->fetch();
+        if($result['favflag'] == 0){
+             // もしfavflag == 0
+            $sql = "UPDATE movies SET favflag = 1 WHERE id = {$_POST['update_fav_flag']}"; // favflagが1のレコードを0に更新
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+        }else{
+            // もしfavflag == 1
+            $sql = "UPDATE movies SET favflag = 0 WHERE id = {$_POST['update_fav_flag']}"; // favflagが1のレコードを0に更新
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+        }
+       
 
         // 更新成功メッセージを表示
         echo "favflagが更新されました。";
