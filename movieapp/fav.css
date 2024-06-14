@@ -13,7 +13,9 @@ body{
    }
    
    .favorite-button {
-       background-color: transparent;
+       background-color: rgba(136, 136, 142, 0.466);
+       width: 40px;
+       border-radius: 30px;
        border: none;
        cursor: pointer;
        padding: 0;
@@ -21,11 +23,12 @@ body{
    }
    
    .favorite-button.active .star {
-       color: rgb(255, 0, 191); /* アクティブ時の★マークの色を設定 */
+       color: rgb(255, 105, 242); /* アクティブ時の★マークの色を設定 */
    }
    
    .star {
-       font-size: 24px; /* ★マークのフォントサイズ */
+       font-size: 30px; /* ★マークのフォントサイズ */
+       
    }
    .movie-item {
     display: flex;
@@ -39,7 +42,7 @@ body{
 .movie-info {
     flex: 1;
     padding-left: 20px; /* 画像と情報の間のスペースを設定 */
-}
+} 
 
 .movie-info p {
     margin: 0; /* パラグラフの余白をリセット */

@@ -82,7 +82,7 @@ try {
     }
 
     // ユーザー情報を取得
-    $loginstmt = $dbh->prepare("SELECT id, name,email FROM login");//まちがえ
+    $loginstmt = $dbh->prepare("SELECT id, name,email,comment FROM login");//まちがえ
     $loginstmt->execute();
     $loginusers = $loginstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -91,27 +91,11 @@ try {
         $userList .= "<td>" . htmlspecialchars($user['id']) . "</td>";
         $userList .= "<td>" . htmlspecialchars($user['name']) . "</td>";
         $userList .= "<td>" . htmlspecialchars($user['email']) . "</td>";
+        $userList .= "<td>" . htmlspecialchars($user['comment']) . "</td>";
         $userList .= "</tr>"; // emailの後に空のtdを挿入して改行を実現
     }
 
-    //削除
-        // $sql = "SELECT * FROM movies WHERE flag=1";
-        //     //プレイスホルダー
-        // $stmt = null;
-        // $stmt = $dbh->prepare($sql); // prepareメソッドを使用してクエリを準備
-        // $stmt->execute();
-        // $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // $inputForm = "<form action=\"admin.php\" method=\"get\">";
-        // foreach($result as $rows){
-        //     if($rows["flag"] == 1){
-        //         $inputForm.="<input type=\"submit\" value=\"削除\">";
-        //         $inputForm.="<input type=\"hidden\" name=\"mode\" value=\"delete\">";
-        //         $inputForm.="<input type=\"hidden\" name=\"id\" value=\"{$rows['id']}\"";
-        //     }
-        // }
-        
-        // $inputForm .= "</form>";
+   
 
             //ユーザを無効にするための処理
         if (isset($_GET["mode"]) && $_GET["mode"] == "delete")
@@ -177,13 +161,15 @@ $content = <<<HTML
     <th>ID</th>
     <th>ユーザー名</th>
     <th>メールアドレス</th>
+    <th>コメント</th>
     <!-- 他に表示したいユーザー情報があればここに追加 -->
     </tr>
     <tr>
     {$userList}
     </tr>
     </table>
-    <button onclick="location.href='./remake.php'">ボタン</button>
+    <!-- 編集ボタン -->
+    <button onclick="location.href='./remake.php'">編集ボタン</button>
 
     </div>
     <div style="flex: 1;">
