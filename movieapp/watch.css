@@ -1,0 +1,25 @@
+body{
+    text-align: center; 
+    background-color: antiquewhite;  
+   }
+   h1{
+       margin-top: 50px;
+   }.movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.movie-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.movie-item {
+    width: 23%; /* 4つ並べるための幅調整 */
+    padding: 10px;
+    text-align: center;
+}
+.movie-item img {
+    max-width: 100%;
+}

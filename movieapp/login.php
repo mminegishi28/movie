@@ -29,7 +29,7 @@ try{
         exit; //管理者画面
     
     } else if(!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
-        header("Location:mypage.html");
+        header("Location:mypage.php");
         exit; //ユーザー画面
 }else {
         // ログインに失敗した場合の処理

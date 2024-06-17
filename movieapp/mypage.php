@@ -9,9 +9,15 @@
        
 </head>
 <body>
+<h1>My Page</h1>
 
-<!-- <scrpt src="fav.js"> -->
-</scrpt>
+<form method="GET" action="mypage.php">
+    <input type="text" name="query" placeholder="検索キーワードを入力してください">
+    <input type="submit" value="検索">
+</form>
+
+
+
 
 <?php
 $dsn = "mysql:host=localhost;dbname=movie;charset=utf8";
@@ -46,6 +52,7 @@ try {
                 echo "<p>公開日：{$row["opening"]}</p>";
                 echo "<p>監督：{$row["director"]}</p>";
                 echo "<p>あらすじ：{$row["summary"]}</p>";
+                
                 echo "</div>";
                 echo "</div>";
             }
@@ -57,7 +64,7 @@ try {
             $stmt->execute();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $id = $row["id"];
+                $id = $row["id"]; //お気に入りにボタン用
                 echo "<div class='movie-item'>";
                 echo "<div class='movie-image'><img src='{$row["image_data"]}' alt='{$row["title"]}' height='500'></div>";
                 echo "<div class='movie-info'>";
@@ -69,31 +76,18 @@ try {
                 echo "<div class='text'><input type=\"submit\" \"value=\"送信\"></div>";
                 echo "</div>";
                 echo "</div>";
-            }
 
+            echo "<form action=\"up_fav.php\" method=\"post\"><button type=\"submit\" name=\"update_fav_flag\" value=$id>お気に入りに登録</button></form>";
+            echo "<button type=\"button\" onclick=\"history.back()\">前のページへ戻る</button>";
+            }
+           
             
         }
-           //ユーザを無効にするための処理
-//            if (isset($_POST["mode"]) && $_POST["mode"] == "update")
-//            {
-//                //sql文を用意
-//                $sql=<<<sql
-//                SELECT movies
-//                SET favflag = 0;
-//                WHERE title = ?;
-// sql;
 
-//             $stmt=$dbh->prepare($sql);
-//             $stmt->bindParam(1,$_POST["title"]);
-            //sql実行
-        //     $stmt->execute();
-        //    }
-        
+         
 
 
-    } else {
-        echo "<p>検索キーワードが指定されていません。</p>";
-    }
+    } 
 
 } catch (PDOException $e) {
     echo "接続失敗・・・";
@@ -101,21 +95,11 @@ try {
 }
 ?>
 
-<!-- お気に入りボタン -->
 
-<form action="up_fav.php" method="post">
-<button type="submit" name="update_fav_flag" value=<?php echo $id;?>>お気に入りに登録</button>
-</form>
 
-<!-- <script>
-// ボタンがクリックされたときの処理
-document.getElementById("favoriteButton").addEventListener("click", function() {
-    // ここにボタンがクリックされたときの動作を記述
-    this.classList.toggle("active");
-    console.log("お気に入りボタンがクリックされました。");
-});
-</script> -->
 
-<button type="button" onclick="history.back()">前のページへ戻る</button>
+<h1>Watch List</h1>
+
+
 </body>
 </html>

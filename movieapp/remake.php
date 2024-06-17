@@ -21,7 +21,7 @@ try{
         if($dbh->query($sql) == TRUE){
             echo '<script>alert("データを更新しました");</script>';
         }else{
-            echo "Error:".$sql."<br>".$dbh->error;
+            echo "Error:".$sql."<br>". $dbh->$error;
         }
 
     }

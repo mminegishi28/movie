@@ -32,7 +32,9 @@ try {
        
 
         // 更新成功メッセージを表示
-        echo "favflagが更新されました。";
+        header("Location: watch.php");
+       
+    
     } else {
         // ボタンが押されていない場合の処理
         echo "お気に入り登録ボタンが押されていません。";
