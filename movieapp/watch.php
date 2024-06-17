@@ -7,6 +7,17 @@ try {
     $dbh = new PDO($dsn, $user, $pass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    // クエリ文字列から検索キーワードを取得
+    if(isset($_GET['query'])) {
+        $query = $_GET['query'];
+
+        // ここで検索処理を行い、結果を表示する
+        // 例：データベースから情報を検索して表示する
+        echo "<p>「" . $query . "」の検索結果:</p>";
+
+}
+    
+
     // SQL文を修正して特定の条件を満たすレコードを取得する
     $sql = "SELECT title, image_data FROM movies WHERE favflag = 0";
     $stmt = $dbh->prepare($sql);
@@ -52,18 +63,27 @@ $content = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="watch.css">
+    <title>mypage</title>
     
-    <title>Watch List</title>
 </head>
 <body>
-    <h1>Watch List</h1>
-    <h2>【お気に入りボタン】</h2>
+
+
+    <h1>My Page</h1>
+
+    <form method="GET" action="mypage.php">
+        <input type="text" name="query" placeholder="検索キーワードを入力してください">
+        <input type="submit" value="検索">
+    </form>
+
+
+    <h1>【Favorite Movies】</h1>
     <h4>---------  お気に入りに追加しました。--------</h4>
     {$result} 
 
-    <button type="button" onclick="history.back()">前のページへ戻る</button>
+    <button type="button" onclick="history.back()">ログアウト</button>
     <br>
-    <a href="mypage.php" class="back-button">検索ページに戻る</a>
+   
 
 </body>
 </html>

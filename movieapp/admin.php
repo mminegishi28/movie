@@ -169,7 +169,7 @@ $content = <<<HTML
     </tr>
     </table>
     <!-- 編集ボタン -->
-    <button onclick="location.href='./remake.php'">編集ボタン</button>
+    <button calss="bun" onclick="location.href='./remake.php'">編集ボタン</button>
 
     </div>
     <div style="flex: 1;">
@@ -227,3 +227,10 @@ HTML;
 
 echo $content;
 ?>
+
+<!-- ジョーカー -->
+ <!-- インデペンデンスデイ -->
+  <!-- 仮面ティーチャー -->
+   <!-- すっみこ暮らし -->
+    <!-- ギズモ -->
+     <!-- mmmmahh228 -->

@@ -42,13 +42,12 @@ try{
         }
     }
 
-
-    $sql= "SELECT id,name,email,comment FROM login WHERE id = ?";
-    //プレイスホルダー設定
-    
-    $stmt=$dbh->prepare($sql);
+//エラー出てる
+    $sql = "SELECT id, name, email, comment FROM login WHERE id = ?";
+    $stmt = $dbh->prepare($sql);
     $id = $_POST['id']; // フォームから送信されたIDを取得
-    $stmt->bindParam(1, $id);
+    $stmt->bindParam(1, $id, PDO::PARAM_INT); // 1番目のプレースホルダーに$idをバインド
+
 
     
 
@@ -64,13 +63,25 @@ $content = <<<HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="mypage.css">
     <title>Document</title>
+    <style>
+        body{
+    text-align: center; 
+    background-color: antiquewhite;  
+   }
+   .user{
+    text-align:center;
+    letter-spacing: ;
+   }
+   h1{
+       margin-top: 50px;
+   }
+    </style>
 </head>
 <body>
     <h1>編集ページ</h1>
     <h2>【ユーザーテーブル】</h2>
-    <table>
+    <table calss="user">
     <tr>
     <th>ID</th>
     <th>ユーザー名</th>
@@ -81,6 +92,7 @@ $content = <<<HTML
     {$loginList}
     </tr>
     </table>
+    <button type="button" onclick="history.back()">前のページへ戻る</button>
 </body>
 
 

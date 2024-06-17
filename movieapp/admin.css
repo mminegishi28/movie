@@ -1,8 +1,10 @@
 body{
     text-align: center; 
     background-color: antiquewhite;  
-   }
-   /* h1{
+    line-height: 1.5;
+}
+   
+   h1{
        margin-top: 50px;
    }
    table{
@@ -10,10 +12,11 @@ body{
       margin-left: 10;
       padding: auto;
       border-spacing: 10px;
+      line-height: 1.5;
    }
    .tt{
     text-align: center;
     margin: auto;
     padding-left: 10px;
     border-spacing: 10px;
-   } */
+   }
