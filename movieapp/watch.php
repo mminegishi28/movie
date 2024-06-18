@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 $dsn = "mysql:host=localhost;dbname=movie;charset=utf8";
 $user = "testuser";
 $pass = "testpass";
@@ -6,6 +9,12 @@ $pass = "testpass";
 try {
     $dbh = new PDO($dsn, $user, $pass);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // ログインしているかどうかを確認する
+    if (!isset($_SESSION['id'])) {
+        // ログインしていない場合、ログインページにリダイレクトするなどの処理を行う
+        exit;
+    }
 
     // クエリ文字列から検索キーワードを取得
     if(isset($_GET['query'])) {
@@ -69,7 +78,7 @@ $content = <<<HTML
 <body>
 
 
-    <h1>My Page</h1>
+    <h1>【My Page】</h1>
 
     <form method="GET" action="mypage.php">
         <input type="text" name="query" placeholder="検索キーワードを入力してください">
@@ -81,8 +90,10 @@ $content = <<<HTML
     <h4>---------  お気に入りに追加しました。--------</h4>
     {$result} 
 
-    <button type="button" onclick="history.back()">ログアウト</button>
-    <br>
+    <!-- <button type="button" onclick="history.back()">ログアウト</button> -->
+    <!-- <div style="text-align: center;">
+    <a href="login.php">ログアウト </a>
+    </div> -->
    
 
 </body>

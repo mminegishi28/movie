@@ -12,6 +12,13 @@ $pass="testpass";
 
 try{
     $dbh=new PDO($dsn,$user,$pass);
+
+     // フォームから送信されたデータを受け取る処理
+     if (isset($_POST["id"])) 
+     {
+         $userid = $_POST["userid"];
+     }
+
     $sql=<<<sql
     SELECT * FROM login WHERE name=?;
     sql;
@@ -27,11 +34,12 @@ try{
     if (!empty($result) && $input_name == "admin" &&  isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
         header("Location: admin.php");
         exit; //管理者画面
-    
     } else if(!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
+        $_SESSION["id"] = $result[0]["id"];
+        $_SESSION["name"] = $result[0]["name"];
         header("Location:watch.php");
         exit; //ユーザー画面
-}else {
+    }else {
         // ログインに失敗した場合の処理
         echo "ログインに失敗しました";
     }

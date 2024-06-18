@@ -82,7 +82,7 @@ try {
     }
 
     // ユーザー情報を取得
-    $loginstmt = $dbh->prepare("SELECT id, name,email,comment FROM login");//まちがえ
+    $loginstmt = $dbh->prepare("SELECT id, name,email,comment FROM login");
     $loginstmt->execute();
     $loginusers = $loginstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -91,7 +91,6 @@ try {
         $userList .= "<td>" . htmlspecialchars($user['id']) . "</td>";
         $userList .= "<td>" . htmlspecialchars($user['name']) . "</td>";
         $userList .= "<td>" . htmlspecialchars($user['email']) . "</td>";
-        $userList .= "<td>" . htmlspecialchars($user['comment']) . "</td>";
         $userList .= "</tr>"; // emailの後に空のtdを挿入して改行を実現
     }
 
@@ -148,20 +147,31 @@ $content = <<<HTML
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link rel="stylesheet" href="admin.css"> -->
         <title>管理者画面</title>
+        <style>
+            body{
+                background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%) fixed; 
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
     </head>
-    <body style="background:antiquewhite;">
-    <h1 style="text-align: center;">管理者画面</h1>
+    <body>
+
+    <h1>【管理者画面】</h1>
+    <!-- <div style="text-align: center;">
+    <a href="login.php">ログアウト </a>
+    </div> -->
+   
     <div style="display: flex;">
-    <div style="flex: 1; margin-right: 20px;">
+    <div style="flex: 1;  margin-left:90px; line-height: 2.5;">
     <h2>【ユーザーテーブル】</h2>
     <table>
     <tr>
     <th>ID</th>
     <th>ユーザー名</th>
     <th>メールアドレス</th>
-    <th>コメント</th>
     <!-- 他に表示したいユーザー情報があればここに追加 -->
     </tr>
     <tr>
@@ -208,15 +218,6 @@ $content = <<<HTML
 
 HTML;
 
-// // 映画情報の表示
-// if (!empty($_SESSION['movieInfo'])) {
-//     $content .= "<h2></h2>";
-//     foreach ($_SESSION['movieInfo'] as $movie) {
-//         $content .= $movie;
-//     }
-// }
-
-
 $content .= <<<HTML
     </div>
     </div>
@@ -228,9 +229,4 @@ HTML;
 echo $content;
 ?>
 
-<!-- ジョーカー -->
- <!-- インデペンデンスデイ -->
-  <!-- 仮面ティーチャー -->
-   <!-- すっみこ暮らし -->
-    <!-- ギズモ -->
-     <!-- mmmmahh228 -->
+     <!-- mmmmahh228@gmail.com -->

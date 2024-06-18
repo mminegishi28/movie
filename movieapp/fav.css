@@ -1,6 +1,6 @@
 body{
     text-align: center; 
-    background-color: antiquewhite;  
+    background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%) fixed;
    }
    h1{
        margin-top: 50px;
@@ -52,4 +52,7 @@ body{
 }
 .tt{
   padding-top: 50px;
+}
+h3{
+    font-size: 30px;
 }
