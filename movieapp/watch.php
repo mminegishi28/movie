@@ -90,11 +90,9 @@ $content = <<<HTML
     <h4>---------  お気に入りに追加しました。--------</h4>
     {$result} 
 
-    <!-- <button type="button" onclick="history.back()">ログアウト</button> -->
-    <!-- <div style="text-align: center;">
-    <a href="login.php">ログアウト </a>
-    </div> -->
-   
+    
+    <input type="button" onclick="window.location='./logout.php'" 
+    value="ログアウト">
 
 </body>
 </html>

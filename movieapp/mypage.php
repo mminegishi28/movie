@@ -72,8 +72,8 @@
                 echo "<h3>コメント一覧</h3>";
                 while ($comment_row = $stmt_comments->fetch(PDO::FETCH_ASSOC)) {
                     echo "<div class='comment'>";
-                    echo "<p>ユーザーID: {$comment_row['login_id']}</p>";
-                    echo "<p>コメント: {$comment_row['comment']}</p>";
+                    echo "<p>【名前】: {$comment_row['login_id']}</p>";
+                    echo "<p>【コメント】: {$comment_row['comment']}</p>";
                     echo "</div>";
                 }
                 echo "</div>";
@@ -106,7 +106,7 @@
                 echo "<input type='submit' value='コメントを送信'>";
                 echo "</form>";
 
-                $sql_comments = "SELECT movies_comment.*, login.name FROM login INNER JOIN movies_comment ON login.id = movies_comment.login_id WHERE movie_id = :movie_id";
+                $sql_comments = "SELECT movies_comment.*, login.nickname FROM login INNER JOIN movies_comment ON login.id = movies_comment.login_id WHERE movie_id = :movie_id";
                 
                 $stmt_comments = $dbh->prepare($sql_comments);
                 $stmt_comments->bindParam(':movie_id', $id, PDO::PARAM_INT);
@@ -116,7 +116,7 @@
                 echo "<h3>【コメント一覧】</h3>";
                 while ($comment_row = $stmt_comments->fetch(PDO::FETCH_ASSOC)) {
                     echo "<div class='comment'>";
-                    echo "<p>【名前】: {$comment_row['name']}</p>";
+                    echo "<p>【名前】: {$comment_row['nickname']}</p>";
                     echo "<p>【コメント】: {$comment_row['comment']}</p>";
                     echo "</div>";
                 }
@@ -125,8 +125,11 @@
                 echo "</div>"; // movie-info
                 echo "</div>"; // movie-item
 
+
+                //お気に入りボタン
                 echo "<form action='up_fav.php' method='post'><button type='submit' name='update_fav_flag' value='$id'>お気に入りに登録</button></form>";
-                echo "<button type='button' onclick='history.back()'>前のページへ戻る</button>";
+                echo "<form action='watch.php'><button type='submit'>前のページに戻る</button></form>";
+
             }
         }
     }
@@ -144,11 +147,14 @@
             $stmt_insert->bindParam(':userid', $_SESSION["id"], PDO::PARAM_INT);
             $stmt_insert->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt_insert->bindParam(':comment', $comment, PDO::PARAM_STR);
+
+            // リダイレクト前に検索語を取得
+            $search_query = isset($_GET['query']) ? $_GET['query'] : '';
             
             if ($stmt_insert->execute()) {
-                // 同じページにリダイレクト
-                header("Location:mypage.php"); 
+                // コメントを登録した後のリダイレクト
                 echo "<p>コメントを登録しました。</p>";
+                echo "<script>window.location.href = 'mypage.php?query=" . urlencode($search_query) . "';</script>";
             } else {
                 echo "<p>コメントの登録に失敗しました。</p>";
             }

@@ -82,7 +82,7 @@ try {
     }
 
     // ユーザー情報を取得
-    $loginstmt = $dbh->prepare("SELECT id, name,email,comment FROM login");
+    $loginstmt = $dbh->prepare("SELECT id, name,email FROM login");
     $loginstmt->execute();
     $loginusers = $loginstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -160,12 +160,14 @@ $content = <<<HTML
     <body>
 
     <h1>【管理者画面】</h1>
-    <!-- <div style="text-align: center;">
-    <a href="login.php">ログアウト </a>
-    </div> -->
-   
+    
+    <div style="margin-left: 1220px;">
+    <input type="button" onclick="window.location='./logout.php'" 
+    value="ログアウト">
+    </div>
+
     <div style="display: flex;">
-    <div style="flex: 1;  margin-left:90px; line-height: 2.5;">
+    <div style="flex: 1;  margin-left:100px; line-height: 2.5;">
     <h2>【ユーザーテーブル】</h2>
     <table>
     <tr>
@@ -200,7 +202,7 @@ $content = <<<HTML
     </tr>
     <tr>
     <td>あらすじ</td>
-    <td><input type="text" name="summary" value=""></td> 
+    <td><input type="text" name="summary" value=""></td>
     </tr>
     <tr>
     <td>フライヤー</td>

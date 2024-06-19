@@ -36,7 +36,7 @@ try{
         exit; //管理者画面
     } else if(!empty($result) && isset($result[0]["email"]) && $input_email == $result[0]["email"]) {
         $_SESSION["id"] = $result[0]["id"];
-        $_SESSION["name"] = $result[0]["name"];
+        $_SESSION["nickname"] = $result[0]["nickname"];
         header("Location:watch.php");
         exit; //ユーザー画面
     }else {

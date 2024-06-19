@@ -13,7 +13,7 @@ try {
 
     // ボタンが押されたかどうかをチェック
     if (isset($_POST['update_fav_flag'])) {
-        // ここでidに対応する行を持ってくる
+        
         $sql="select * from movies where id = {$_POST['update_fav_flag']}";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
